@@ -4,6 +4,8 @@ import Layout from '../layout/layout';
 export { PrivateRoute };
 
 function PrivateRoute({ children }) {
+
+    // console.log(children);
     // const { user: authUser } = useSelector(x => x.auth);
     const authUser = window && window.localStorage.getItem('isAuthenticated') || false;
 
@@ -13,5 +15,12 @@ function PrivateRoute({ children }) {
     }
 
     // authorized so return child components
-    return ( <Layout>{children}</Layout>);
+    return (
+        <>
+            <Layout>
+                {children}
+            </Layout>
+        </>
+
+    );
 }
