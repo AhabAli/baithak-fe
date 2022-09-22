@@ -40,8 +40,8 @@ const CreateUser = () => {
         clusterId: null,
         staffId: null,
         teacherId: null,
-        username: null,
-        password: null,
+        username: "",
+        password: "",
         accessLevel: null,
         roleId: null
     });
@@ -50,17 +50,13 @@ const CreateUser = () => {
     }
 
     useEffect(() => {
-        (async () => {
-            const roleData = await getRoles();
-            const regionData = await getRegion();
-            setRoles(roleData.data);
-            setRegion(regionData.data);
-        })();
-    }, [])
-
-    const _handleRegionChange = (e) => {
-        setSchool(region[e].School)
-    }
+      (async () => {
+        const roleData = await getRoles();
+        const regionData = await getRegion();
+        setRoles(roleData.data);
+        setRegion(regionData.data);
+      })();
+    }, []);
     const _handleOnChange = (e) => {
         setFormData(prevState => {
             return {
@@ -69,147 +65,184 @@ const CreateUser = () => {
             }
         })
         if (e.target.name === 'clusterId') {
-            setSchool(prevState => {
-                return region.filter((item) => item.RegionId === e.target.value)[0].School
-            })
+          setSchool((prevState) => {
+            return region.filter(
+              (item) => item.RegionId === Number(e.target.value)
+            )[0].School;
+          });
         }
     }
+    const _renderRegionSelect = () => {
+        if (
+          formData.accessLevel === "REGION" ||
+          formData.accessLevel === "SCHOOL"
+        ) {
+          return (
+            <div className="form-group">
+              <label htmlFor="clusterId" className="d-block">
+                Select Region
+              </label>
+              <select
+                className="custom-select"
+                name="clusterId"
+                onChange={_handleOnChange}
+              >
+                <option value="">Select Region</option>
+                {region
+                  ? region.map((val, key) => (
+                      <option key={key} value={val.RegionId}>
+                        {val.RegionName}
+                      </option>
+                    ))
+                  : ""}
+              </select>
+            </div>
+          );
+        }
+        return null;
+    }
+    const _renderSchoolSelect = () => {
+        if(formData.accessLevel === 'SCHOOL'){
+            return (
+              <div className="form-group">
+                <label htmlFor="schoolId" className="d-block">
+                  Select School
+                </label>
+                <select
+                  className="custom-select"
+                  name="schoolId"
+                  onChange={_handleOnChange}
+                  disabled={school.length === 0}
+                >
+                  <option value="">Select School</option>
+                  {school
+                    ? school.map((val, key) => (
+                        <option key={key} value={val.SchoolId}>
+                          {val.NameOfSchool}
+                        </option>
+                      ))
+                    : ""}
+                </select>
+              </div>
+            );
+        }
+        return null
+    }
     return (
-        <div className="content content-fixed">
-            <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
-                <div className="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
-                    <div>
-                        <nav aria-label="breadcrumb">
-                            <ol className="breadcrumb breadcrumb-style1 mg-b-10">
-                                <li className="breadcrumb-item">
-                                    <Link to="/">Dashboard</Link>
-                                </li>
-                                <li className="breadcrumb-item active" aria-current="page">
-                                    Add User
-                                </li>
-                            </ol>
-                        </nav>
-                        <h4 className="mg-b-0 tx-spacing--1">Create A User</h4>
-                    </div>
-                </div>
-                <form autoComplete="off">
+      <div className="content content-fixed">
+        <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+          <div className="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol className="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li className="breadcrumb-item">
+                    <Link to="/">Dashboard</Link>
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    Add User
+                  </li>
+                </ol>
+              </nav>
+              <h4 className="mg-b-0 tx-spacing--1">Create A User</h4>
+            </div>
+          </div>
+          <form autoComplete="off">
+            {/* ACCESS LEVEL */}
+            <div className="form-group">
+              <label htmlFor="accessLevel" className="d-block">
+                Access Level
+              </label>
+              <select
+                className="custom-select"
+                name="accessLevel"
+                onChange={_handleOnChange}
+              >
+                <option value="">
+                  Select Access Level
+                </option>
+                <option value="REGION">REGION</option>
+                <option value="SCHOOL">SCHOOL</option>
+                <option value="STAFF">STAFF</option>
+                <option value="TEACHER">TEACHER</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+            </div>
 
-                    {/* ACCESS LEVEL */}
-                    <div className="form-group">
-                        <label htmlFor="accessLevel" className="d-block">
-                            Access Level
-                        </label>
-                        <select className="custom-select"
-                            name="accessLevel"
-                            value={formData.accessLevel}
-                            onChange={_handleOnChange}
-                            defaultValue="">
-                            <option value="" disabled>Select Access Level</option>
-                            <option value="active">REGION</option>
-                            <option value="inactive">SCHOOL</option>
-                            <option value="inactive">STAFF</option>
-                            <option value="inactive">TEACHER</option>
-                            <option value="inactive">ADMIN</option>
-                        </select>
-                    </div>
+            {/* ROLES */}
+            <div className="form-group">
+              <label htmlFor="roleId" className="d-block">
+                Select Role
+              </label>
+              <select
+                className="custom-select"
+                name="roleId"
+                onChange={_handleOnChange}
+              >
+                <option value="" disabled>
+                  Select Role
+                </option>
+                {roles
+                  ? roles.map((val, key) => (
+                      <option key={key} value={val.RoleId}>
+                        {val.RoleName}
+                      </option>
+                    ))
+                  : ""}
+              </select>
+            </div>
 
-                    {/* ROLES */}
-                    <div className="form-group">
-                        <label htmlFor="roleId" className="d-block">
-                            Select Role
-                        </label>
-                        <select
-                            className="custom-select"
-                            name="roleId"
-                            value={formData.roleId}
-                            onChange={_handleOnChange}
-                            defaultValue="">
+            {/* REGION */}
+            {_renderRegionSelect()}
 
-                            <option value="" disabled>Select Role</option>
-                            {
-                                roles ? roles.map((val, key) => (
-                                    <option key={key} value={val.RoleId}>{val.RoleName}</option>
-                                )) : ""
-                            }
-                        </select>
-                    </div>
+            {/* SCHOOL */}
+            {_renderSchoolSelect()}
 
-                    {/* REGION */}
-                    <div className="form-group">
-                        <label htmlFor="clusterId" className="d-block">
-                            Select Region
-                        </label>
-                        <select className="custom-select" name="clusterId" onChange={_handleOnChange} defaultValue="">
-                            <option value="" disabled>Select Region</option>
-                            {
-                                region ? region.map((val, key) => (
-                                    <option key={key} value={val.RegionId}>{val.RegionName}</option>
-                                )) : ""
-                            }
-                        </select>
-                    </div>
+            {/* USERNAME */}
+            <div className="form-group">
+              <label htmlFor="username" className="d-block">
+                User Name
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter User Name"
+                autoComplete="off"
+                name="username"
+                value={formData.username}
+                onChange={_handleOnChange}
+              />
+            </div>
 
-                    {/* SCHOOL */}
-                    <div className="form-group">
-                        <label htmlFor="schoolId" className="d-block">
-                            Select School
-                        </label>
-                        <select className="custom-select" defaultValue=""
-                            name="schoolId"
-                            value={formData.schoolId}
-                            onChange={_handleOnChange}>
-                            <option value="" disabled>Select School</option>
-                            {
-                                school ? school.map((val, key) => (
-                                    <option key={key}>{val.NameOfSchool}</option>
-                                )) : ""
-                            }
-                        </select>
-                    </div>
+            {/* Password */}
+            <div className="form-group">
+              <label htmlFor="password" className="d-block">
+                Password
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter Password"
+                autoComplete="off"
+                name="password"
+                value={formData.password}
+                onChange={_handleOnChange}
+              />
+            </div>
 
-                    {/* USERNAME */}
-                    <div className="form-group">
-                        <label htmlFor="username" className="d-block">
-                            User Name
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter User Name"
-                            autoComplete="off"
-                            name="username"
-                            value={formData.username}
-                            onChange={_handleOnChange}
-                        />
-                    </div>
-
-                    {/* Password */}
-                    <div className="form-group">
-                        <label htmlFor="password" className="d-block">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            placeholder="Enter Password"
-                            autoComplete="off"
-                            name="password"
-                            value={formData.password}
-                            onChange={_handleOnChange}
-                        />
-                    </div>
-
-                    <button className="btn btn-primary mr-2" type="submit">
-                        Submit
-                    </button>
-                    <button className="btn btn-secondary" type="cancel" onClick={handleCancel}>
-                        Cancel
-                    </button>
-                </form>
-
-            </div >
-        </div >
-    )
+            <button className="btn btn-primary mr-2" type="submit">
+              Submit
+            </button>
+            <button
+              className="btn btn-secondary"
+              type="cancel"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      </div>
+    );
 }
 
 export default CreateUser
