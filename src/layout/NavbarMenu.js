@@ -32,24 +32,20 @@ const NavbarMenu = () => {
                             Clusters
                         </a>
                     </li>
+
                     <li className="nav-item">
                         <a href="#!" className="nav-link">
                             Principals
                         </a>
                     </li>
                     <li className="nav-item">
-                        <Link to="/teachers" className="nav-link"> Teachers</Link>
-                        {/* <a href="#!" className="nav-link">
-                            Teachers
-                        </a> */}
+                        <Link to="/staff" className="nav-link"> Staff</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/students" className="nav-link"> Students</Link>
                     </li>
                     <li className="nav-item">
-                        <a href="#!" className="nav-link">
-                            Classes
-                        </a>
+                        <Link to="/viewClass" className="nav-sub-link"> Classes</Link>
                     </li>
                     <li className="nav-item">
                         <a href="#!" className="nav-link">
@@ -57,10 +53,30 @@ const NavbarMenu = () => {
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href="#!" className="nav-link">
-                            Variables
-                        </a>
+                        <Link to="/createVariables" className="nav-link"> Variables</Link>
                     </li>
+                    <li className="nav-item with-sub">
+                        <a href="#!" className="nav-link">
+                            More
+                        </a>
+                        <div className="navbar-menu-sub">
+                            <ul>
+                                <li className="nav-sub-item">
+                                    <Link to="/viewSubjects" className="nav-sub-link"> Subjects</Link>
+                                </li>
+                                <li className="nav-sub-item">
+                                    <Link to="/viewSyllabus" className="nav-sub-link"> Syllabus</Link>
+                                </li>
+                                <li className="nav-sub-item">
+                                    <Link to="/viewSchools" className="nav-sub-link"> Schools</Link>
+                                </li>
+                                <li className="nav-sub-item">
+                                    <Link to="/createUser" className="nav-sub-link"> Create User</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
             {/* navbar-menu-wrapper */}

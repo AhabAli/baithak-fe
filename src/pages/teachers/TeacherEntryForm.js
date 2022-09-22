@@ -18,20 +18,20 @@ const TeacherEntryForm = () => {
                         <nav aria-label="breadcrumb">
                             <ol className="breadcrumb breadcrumb-style1 mg-b-10">
                                 <li className="breadcrumb-item">
-                                    <Link to="/teachers">Teacher Listing</Link>
+                                    <Link to="/teachers">Staff Listing</Link>
                                 </li>
                                 <li className="breadcrumb-item active" aria-current="page">
-                                    Teachers
+                                    Add Staff
                                 </li>
                             </ol>
                         </nav>
-                        <h4 className="mg-b-0 tx-spacing--1">Create A Teacher</h4>
+                        <h4 className="mg-b-0 tx-spacing--1">Create A Staff</h4>
                     </div>
                 </div>
                 <form>
                     <div className="form-group">
                         <label htmlFor="formGroupExampleInput" className="d-block">
-                            Teacher Name
+                            Staff Name
                         </label>
                         <input
                             type="text"

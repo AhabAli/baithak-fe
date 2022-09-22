@@ -19,10 +19,10 @@ const TeachersTable = () => {
                                 </li>
                             </ol>
                         </nav>
-                        <h4 className="mg-b-0 tx-spacing--1">Teacher Listing</h4>
+                        <h4 className="mg-b-0 tx-spacing--1">Staff Listing</h4>
                     </div>
                     <div className="d-md-block d-none">
-                        <Link className='btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' to="/teachersEntryForm">
+                        <Link className='btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' to="/staffEntryForm">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width={24}
@@ -37,7 +37,7 @@ const TeachersTable = () => {
                             >
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
                                 <polyline points="13 2 13 9 20 9" />
-                            </svg>Add Teachers</Link>
+                            </svg>Add Staff</Link>
                     </div>
 
                 </div>
