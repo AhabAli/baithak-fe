@@ -1,35 +1,45 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import { instance } from '../api/api';
+
+const loginUser = async (data) => {
+    try {
+        const { data: reponse, status } = await instance.post('/users/authenticate', data);
+        if (status === 200) {
+            return reponse;
+        }
+    } catch (error) {
+        console.log(error)
+        return error.response.data;
+    }
+}
 
 const Login = () => {
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         let email = document.getElementById('auth-email').value;
         let password = document.getElementById('auth-password').value;
         let alert = document.getElementById('alert-auth');
         if (email && password) {
-            window.localStorage.setItem('isAuthenticated', true);
-            navigate('/');
+            // window.localStorage.setItem('isAuthenticated', true);
+            const user = await loginUser({
+                username: email,
+                password: password
+            });
+            if (user != null && user.hasOwnProperty('success')) {
+                window.localStorage.setItem('isAuthenticated', true);
+                navigate('/')
+            } else {
+                window.alert(user.message);
+            }
+            // console.log(user)
         } else {
             alert.classList.remove('d-none')
         }
     }
-    // const postLogin = () => {
-
-    //     if (!window) return;
-    //     let email = document.getElementById('auth-email').value;
-    //     let password = document.getElementById('auth-password').value;
-    //     if ((!email)) {
-    //         console.log('hello')
-    //     }
-    //     window.localStorage.setItem('isAuthenticated', true);
-
-    //     navigate('/');
-    // }
-
 
     return (
         <>
@@ -60,9 +70,9 @@ const Login = () => {
                                     <div className="form-group">
                                         <label>Email address</label>
                                         <input
-                                            type="email"
+                                            type="text"
                                             className="form-control"
-                                            placeholder="yourname@yourmail.com"
+                                            placeholder="Enter User Name"
                                             required
                                             id='auth-email'
                                         />

@@ -1,9 +1,24 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import {
-  Link
+  Link, useLocation, useNavigate
 } from "react-router-dom";
 
 const Dashboard = () => {
+
+  let { state: locationState, pathname } = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+   
+
+    if (locationState != null && locationState.hasOwnProperty('success')) {
+      alert(locationState.status);
+      navigate(pathname, {
+        state: {}
+      })
+    }
+
+  }, [])
   return (
     <div className="content content-fixed">
       <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
@@ -12,7 +27,7 @@ const Dashboard = () => {
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb breadcrumb-style1 mg-b-10">
                 <li className="breadcrumb-item">
-                  
+
                   <a href="#">Dashboard</a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">

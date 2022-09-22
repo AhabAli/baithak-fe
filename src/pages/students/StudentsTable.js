@@ -1,9 +1,36 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 import {
-    Link
+    Link, useLocation, useNavigate
 } from "react-router-dom";
-
+import { instance } from '../../api/api';
+const getStudents = async () => {
+    try {
+        const { data, status } = await instance.get('/students');
+        if (status === 200) {
+            return data;
+        }
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+}
 const StudentsTable = () => {
+    const [students, setStudents] = useState([]);
+    let { state: locationState, pathname } = useLocation();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (locationState != null && locationState.hasOwnProperty('success')) {
+            alert(locationState.status);
+            navigate(pathname, {
+                state: {}
+            })
+        }
+        (async () => {
+            const studentData = await getStudents();
+            setStudents(studentData.data);
+        })();
+    }, [])
     return (
         <div className="content content-fixed">
             <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
@@ -51,23 +78,30 @@ const StudentsTable = () => {
                                 <th scope="col">Address</th>
                                 <th scope="col">DOB</th>
                                 <th scope="col">Gender</th>
-                                <th scope="col">Cell No.</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Guardian Name</th>
+                                <th scope="col">Nationality</th>
                                 <th scope="col">Parent's Cell No.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Adrian Monino</td>
-                                <td>Head Teacher</td>
-                                <td>Lorem Ipsum</td>
-                                <td>0987</td>
-                                <td>Male</td>
-                                <td>0300526456</td>
-                                <td>teacher@teacher.com</td>
-                                <td>123123123</td>
-                            </tr>
+
+                            {
+                                students ? students.map((val, key) => (
+                                    <tr key={key}>
+                                        <th scope="row">{val.SID}</th>
+                                        <td>{val.StudentName}</td>
+                                        <td>{val.FathersName}</td>
+                                        <td>{val.Address}</td>
+                                        <td>{val.DOB}</td>
+                                        <td>{val.Gender}</td>
+                                        <td>{val.GuardianName}</td>
+                                        <td>{val.Ntionality}</td>
+                                        <td>{val.Parent_Cell_No}</td>
+                                    </tr>
+
+                                )) : null
+                            }
+
                         </tbody>
                     </table>
                 </div>

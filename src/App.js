@@ -36,7 +36,6 @@ function App() {
         <Route path="/viewSchools" element={<PrivateRoute> <SchoolTable /> </PrivateRoute>} />
         <Route path="/schoolDetail/:id" element={<PrivateRoute> <SchoolDetails /> </PrivateRoute>} />
         <Route path="/createUser" element={<PrivateRoute> <CreateUser /> </PrivateRoute>} />
-
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
